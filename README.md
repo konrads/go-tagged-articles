@@ -6,7 +6,7 @@ Build status (master): [![Build Status](https://travis-ci.org/konrads/go-tagged-
 
 Specification
 -------------
-Implement GET/POST endpoints for persistance/retrieval of tagged articles such as:
+Implement GET/POST endpoints for persistence/retrieval of tagged articles such as:
 ```
 {
   "id": "1",
@@ -43,7 +43,7 @@ From the tag specific information, the following has been assumed:
 
 Design
 ------
-The API contains a single API endoint, [restapi.go](cmd/restapi/restapi.go), which serves REST API via [handler.go](pkg/handler/handler.go). This connects up to [postgres.go](pkg/db/postges.go) db. [handler.go](pkg/handler/handler.go) and [postgres.go](pkg/db/postges.go) implement interfaces, for the prupose of decoupling and ease of testing.
+The API contains a single API endpoint, [restapi.go](cmd/restapi/restapi.go), which serves REST API via [handler.go](pkg/handler/handler.go). This connects up to [postgres.go](pkg/db/postges.go) db. [postgres.go](pkg/db/postges.go) implements an interface, for the purpose of decoupling and ease of testing.
 
 Database mode consists of a single table, as Postgres supports queries within embedded arrays.
 
@@ -63,7 +63,7 @@ go test ./... -v
 End-to-end test
 ---------------
 Start up postgres and restapi via `docker-compose`, run tests via `curl`, validate with `jq`. NOTE: needs more error testing.
-This test aids in overall interactions, from REST calls up to db persistance.
+This test aids in overall interactions, from REST calls up to db persistence.
 ```
 # ensure you have installed: docker-compose, jq, curl
 end2end_test.sh

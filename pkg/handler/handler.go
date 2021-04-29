@@ -15,6 +15,7 @@ type Handler struct {
 	db *db.DB
 }
 
+// Handler for REST methods, including param handling, body generation, response handling
 func NewHandler(db *db.DB) Handler {
 	return Handler{db}
 }

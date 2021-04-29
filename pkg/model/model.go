@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Adding Date type to distinguish from Time (with timestamp)
 // from: https://stackoverflow.com/questions/45303326/how-to-parse-non-standard-time-format-from-json
 type Date time.Time
 
@@ -21,7 +22,6 @@ func (j *Date) UnmarshalJSON(b []byte) error {
 
 func (j Date) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf("\"%s\"", time.Time(j).Format("2006-01-02"))), nil
-	// return json.Marshal(time.Time(j))
 }
 
 func (j Date) Format(s string) string {
@@ -29,6 +29,7 @@ func (j Date) Format(s string) string {
 	return t.Format(s)
 }
 
+// ArticleReq is a request struct of Alert, ie. without the id.
 type ArticleReq struct {
 	Title string   `json:"title" binding:"required"`
 	Date  Date     `json:"date" binding:"required"`

@@ -9,9 +9,10 @@ import (
 	"github.com/konrads/go-tagged-articles/pkg/handler"
 )
 
+// main cmd entrypoint to start up the server.
 func main() {
 	restUri := flag.String("rest-uri", "0.0.0.0:8080", "rest uri")
-	dbUri := flag.String("db-uri", "NA" /* eg. for postgres: "postgres://gomicros:password@localhost/gomicros?sslmode=disable" */, "db uri")
+	dbUri := flag.String("db-uri", "NA" /* eg. for postgres: "postgres://gotaggedarticles:password@localhost/gotaggedarticles?sslmode=disable" */, "db uri")
 	flag.Parse()
 
 	log.Printf(`Starting restapi service with params:
@@ -24,6 +25,7 @@ func main() {
 	handler := handler.NewHandler(&db)
 
 	r := gin.Default()
+	// heathcheck
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
