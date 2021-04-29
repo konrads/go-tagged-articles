@@ -76,6 +76,7 @@ ensure_tools "curl --version" "jq --version" "docker --version" "docker-compose 
 
 log_bold Starting up env...
 docker-compose up -d
+sleep 5
 
 # test: POST articles
 article1_id_created=`curl -X POST localhost:8080/articles -H "Content-Type: application/json" --data '{"title": "t1", "date": "2001-02-03", "body": "b1", "tags": ["tt1", "tt2"]}' | jq -r '.id'`
@@ -85,7 +86,6 @@ log_bold Created article ids: $article1_id_created, $article3_id_created, $artic
 assert_not_null "article1_id is empty" $article1_id_created
 assert_not_null "article2_id is empty" $article2_id_created
 assert_not_null "article3_id is empty" $article3_id_created
-sleep 2
 
 # test: GET articles
 article1_id_fetched=`curl -X GET localhost:8080/articles/$article1_id_created | jq -r '.id'`
