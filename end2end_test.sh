@@ -22,7 +22,7 @@ assert_eq() {
   if [ "$2" != "$3" ]; then
     echo -e "  ${red}$1: $2 != $3${reset}"
     log_bold Tearing down env...
-    docker-compose up -d
+    docker-compose down
     exit -1
   fi
 }
@@ -31,7 +31,7 @@ assert_not_null() {
   if [ "$2" == "" ]; then
     echo -e "  ${red}$1: $2 is empty${reset}"
     log_bold Tearing down env...
-    docker-compose up -d
+    docker-compose down
     exit -1
   fi
 }
@@ -85,6 +85,7 @@ log_bold Created article ids: $article1_id_created, $article3_id_created, $artic
 assert_not_null "article1_id is empty" $article1_id_created
 assert_not_null "article2_id is empty" $article2_id_created
 assert_not_null "article3_id is empty" $article3_id_created
+sleep 2
 
 # test: GET articles
 article1_id_fetched=`curl -X GET localhost:8080/articles/$article1_id_created | jq -r '.id'`
@@ -101,4 +102,4 @@ log_bold Fetched tags: $related_tags_fetched
 assert_eq "fetched tags mismatch" $related_tags_fetched '["tt1","tt3"]'
 
 log_bold Tearing down env...
-docker-compose up -d
+docker-compose down
