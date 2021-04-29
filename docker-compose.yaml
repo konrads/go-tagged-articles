@@ -1,0 +1,29 @@
+version: '3.8'
+
+networks:
+  gotaggedarticles-net:
+    driver: bridge
+
+services:
+  postgres:
+    image: 'gotaggedarticles.postgres'
+    build:
+      dockerfile: docker/postgres/Dockerfile
+      context: .
+    networks:
+      - gotaggedarticles-net
+
+  restapi:
+    image: 'gotaggedarticles.restapi'
+    build:
+      dockerfile: docker/restapi/Dockerfile
+      context: .
+    ports:
+      - 8080:8080
+    expose:
+      - "8080"
+    networks:
+      - gotaggedarticles-net
+    depends_on:
+      - postgres
+    entrypoint: bash -c "/restapi -rest-uri=0.0.0.0:8080 -db-uri=postgres://gotaggedarticles:password@postgres/gotaggedarticles?sslmode=disable"
